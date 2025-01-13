@@ -968,6 +968,15 @@ void llm_load_hparams(llama_model_loader & ml, llama_model & model) {
                     default: model.type = e_model::MODEL_UNKNOWN;
                 }
             } break;
+        case LLM_ARCH_EDGELLM:
+            {   
+                ml.get_key(LLM_KV_ATTENTION_LAYERNORM_RMS_EPS, hparams.f_norm_rms_eps);
+                ml.get_key(LLM_KV_ATTENTION_KV_LORA_RANK, hparams.n_lora_kv);
+                switch (hparams.n_layer) {
+                    case 32: model.type = e_model::MODEL_2B; break;
+                    default: model.type = e_model::MODEL_UNKNOWN;
+                }
+            } break;
         case LLM_ARCH_CHATGLM:
             {
                 ml.get_key(LLM_KV_ATTENTION_LAYERNORM_RMS_EPS, hparams.f_norm_rms_eps);
@@ -2088,6 +2097,7 @@ enum llama_rope_type llama_rope_type(const struct llama_model * model) {
         case LLM_ARCH_ARCTIC:
         case LLM_ARCH_DEEPSEEK:
         case LLM_ARCH_DEEPSEEK2:
+        case LLM_ARCH_EDGELLM:
         case LLM_ARCH_CHATGLM:
         case LLM_ARCH_GRANITE:
         case LLM_ARCH_GRANITE_MOE:

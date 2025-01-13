@@ -390,6 +390,10 @@ class Model:
 
         total_params, shared_params, expert_params, expert_count = self.gguf_writer.get_total_parameter_count()
 
+        from transformers import AutoModel
+        model = AutoModel.from_pretrained(self.dir_model, trust_remote_code=True)
+        total_params = model.num_parameters()
+
         self.metadata = gguf.Metadata.load(self.metadata_override, self.dir_model_card, self.model_name, total_params)
 
         # Fallback to model directory name if metadata name is still missing
@@ -747,6 +751,7 @@ class Model:
         merges = []
         vocab = {}
         mergeable_ranks = tokenizer.mergeable_ranks
+        print("mergeable_ranks =", tokenizer.mergeable_ranks)
         for token, rank in mergeable_ranks.items():
             vocab[QwenModel.token_bytes_to_string(token)] = rank
             if len(token) == 1:
@@ -4083,7 +4088,26 @@ class DeepseekV2Model(Model):
             experts = [k for d in self._experts for k in d.keys()]
             if len(experts) > 0:
                 raise ValueError(f"Unprocessed experts: {experts}")
+            
+@Model.register("EdgellmForCausalLM")
+class EdgeLLMModel(Model):
+    model_arch = gguf.MODEL_ARCH.EDGELLM
 
+    def set_vocab(self):
+        self._set_vocab_gpt2()
+    
+    def set_gguf_parameters(self):
+        super().set_gguf_parameters()
+        hparams = self.hparams
+
+        self.gguf_writer.add_vocab_size(hparams["vocab_size"])
+        self.gguf_writer.add_kv_lora_rank(hparams["kv_lora_rank"])
+        self.gguf_writer.add_key_length(hparams["qk_nope_head_dim"] + hparams["qk_rope_head_dim"])
+        self.gguf_writer.add_value_length(hparams["v_head_dim"])
+        self.gguf_writer.add_rope_dimension_count(hparams["qk_rope_head_dim"])
+    
+    def prepare_tensors(self):
+        super().prepare_tensors()
 
 @Model.register("T5WithLMHeadModel")
 @Model.register("T5ForConditionalGeneration")

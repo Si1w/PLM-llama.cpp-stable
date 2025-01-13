@@ -269,6 +269,7 @@ class MODEL_ARCH(IntEnum):
     ARCTIC           = auto()
     DEEPSEEK         = auto()
     DEEPSEEK2        = auto()
+    EDGELLM          = auto()
     CHATGLM          = auto()
     BITNET           = auto()
     T5               = auto()
@@ -456,6 +457,7 @@ MODEL_ARCH_NAMES: dict[MODEL_ARCH, str] = {
     MODEL_ARCH.ARCTIC:           "arctic",
     MODEL_ARCH.DEEPSEEK:         "deepseek",
     MODEL_ARCH.DEEPSEEK2:        "deepseek2",
+    MODEL_ARCH.EDGELLM:          "edgellm",
     MODEL_ARCH.CHATGLM:          "chatglm",
     MODEL_ARCH.BITNET:           "bitnet",
     MODEL_ARCH.T5:               "t5",
@@ -1350,6 +1352,20 @@ MODEL_TENSORS: dict[MODEL_ARCH, list[MODEL_TENSOR]] = {
         MODEL_TENSOR.FFN_DOWN_SHEXP,
         MODEL_TENSOR.FFN_UP_SHEXP,
         MODEL_TENSOR.FFN_EXP_PROBS_B,
+    ],
+    MODEL_ARCH.EDGELLM: [
+        MODEL_TENSOR.TOKEN_EMBD,        
+        MODEL_TENSOR.OUTPUT,
+        MODEL_TENSOR.OUTPUT_NORM,  
+        MODEL_TENSOR.ATTN_NORM,         
+        MODEL_TENSOR.ATTN_Q,
+        MODEL_TENSOR.ATTN_KV_A_MQA,
+        MODEL_TENSOR.ATTN_KV_A_NORM,    
+        MODEL_TENSOR.ATTN_KV_B,                 
+        MODEL_TENSOR.ATTN_OUT,  
+        MODEL_TENSOR.FFN_NORM,          
+        MODEL_TENSOR.FFN_UP,              
+        MODEL_TENSOR.FFN_DOWN,            
     ],
     MODEL_ARCH.CHATGLM : [
         MODEL_TENSOR.TOKEN_EMBD,
