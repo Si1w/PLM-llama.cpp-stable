@@ -149,6 +149,7 @@ fun MainCompose(
             for (model in models) {
                 Downloadable.Button(viewModel, dm, model)
             }
+            Button({ viewModel.load("/storage/emulated/0/Android/data/com.example.llama/files/edgellm-1.8B-fp16.gguf") }) { Text("load local model")}
         }
     }
 }
