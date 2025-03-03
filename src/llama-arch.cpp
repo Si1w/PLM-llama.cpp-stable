@@ -49,7 +49,7 @@ static const std::map<llm_arch, const char *> LLM_ARCH_NAMES = {
     { LLM_ARCH_ARCTIC,           "arctic"           },
     { LLM_ARCH_DEEPSEEK,         "deepseek"         },
     { LLM_ARCH_DEEPSEEK2,        "deepseek2"        },
-    { LLM_ARCH_EDGELLM,          "edgellm"          },
+    { LLM_ARCH_PLM,              "plm"              },
     { LLM_ARCH_CHATGLM,          "chatglm"          },
     { LLM_ARCH_BITNET,           "bitnet"           },
     { LLM_ARCH_T5,               "t5"               },
@@ -1015,11 +1015,10 @@ static const std::map<llm_arch, std::map<llm_tensor, const char *>> LLM_TENSOR_N
         },
     },
         {
-        LLM_ARCH_EDGELLM,
+        LLM_ARCH_PLM,
         {
             { LLM_TENSOR_TOKEN_EMBD,         "token_embd" },
             { LLM_TENSOR_OUTPUT_NORM,        "output_norm" },
-            // { LLM_TENSOR_OUTPUT,             "output" },
             { LLM_TENSOR_ATTN_NORM,          "blk.%d.attn_norm" },
             { LLM_TENSOR_ATTN_Q,             "blk.%d.attn_q" },
             { LLM_TENSOR_ATTN_KV_A_MQA,      "blk.%d.attn_kv_a_mqa" },

@@ -1914,7 +1914,7 @@ static bool llm_load_tensors(
                         }
                     }
                 } break;
-            case LLM_ARCH_EDGELLM:
+            case LLM_ARCH_PLM:
                 {
                     const int64_t n_embd_head_qk_rope = hparams.n_rot;
                     const int64_t n_embd_head_qk_nope = hparams.n_embd_head_k - hparams.n_rot;
@@ -9153,7 +9153,7 @@ struct llm_build_context {
         return gf;
     }
 
-    struct ggml_cgraph * build_edgellm() {
+    struct ggml_cgraph * build_plm() {
         struct ggml_cgraph * gf = ggml_new_graph_custom(ctx0, llama_model_max_nodes(model), false);
 
         // mutable variable, needed during the last layer of the computation to skip unused tokens
@@ -11075,9 +11075,9 @@ static struct ggml_cgraph * llama_build_graph(
             {
                 result = llm.build_deepseek2();
             } break;
-        case LLM_ARCH_EDGELLM:
+        case LLM_ARCH_PLM:
             {
-                result = llm.build_edgellm();
+                result = llm.build_plm();
             } break;
         case LLM_ARCH_CHATGLM:
             {

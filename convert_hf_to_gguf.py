@@ -4089,9 +4089,9 @@ class DeepseekV2Model(Model):
             if len(experts) > 0:
                 raise ValueError(f"Unprocessed experts: {experts}")
             
-@Model.register("EdgellmForCausalLM")
+@Model.register("PlmForCausalLM")
 class EdgeLLMModel(Model):
-    model_arch = gguf.MODEL_ARCH.EDGELLM
+    model_arch = gguf.MODEL_ARCH.PLM
 
     def set_vocab(self):
         self._set_vocab_gpt2()
